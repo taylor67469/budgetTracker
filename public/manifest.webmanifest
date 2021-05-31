@@ -1,20 +1,20 @@
 {
     "name": "Budget PWA",
-    "short_name": "bud PWA",
-    "start_url": ".",
-    "background_color": "#cadbda",
-    "theme_color": "#cadbda",
+    "short_name": "Bud PWA",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
     "display": "standalone",
     "icons": [
       {
         "src": "icons/icon-192x192.png",
-        "sizes": "192x192",
+        "sizes": "192x169",
         "type": "image/png"
       },
       {
         "src": "icons/icon-512x512.png",
-        "sizes": "512x512",
+        "sizes": "512x452",
         "type": "image/png"
       }
-    ] 
+    ],
+    "start_url": "/"
   }

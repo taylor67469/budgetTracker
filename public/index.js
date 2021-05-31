@@ -39,7 +39,6 @@ function populateTable() {
     tbody.appendChild(tr);
   });
 }
-
 function populateChart() {
   // copy array and reverse it
   let reversed = transactions.slice().reverse();
