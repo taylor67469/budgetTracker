@@ -1,5 +1,5 @@
-const CACHE_NAME = 'static-cache-v2';
-const DATA_CACHE_NAME = 'data-cache-v1';
+const CACHE_NAME = 'cachemoneybaby';
+const DATA_CACHE_NAME = 'cachev1';
 const FILES_TO_CACHE = [
     "./",
   "./index.html",
@@ -13,9 +13,9 @@ const FILES_TO_CACHE = [
 self.addEventListener("install", function (evt) {
     // pre cache image data
     // pre cache all static assets
-    evt.waitUntil(
-      caches.open(DATA_CACHE_NAME).then((cache) => cache.add('/api/transaction'))
-    );
+    // evt.waitUntil(
+    //   caches.open(DATA_CACHE_NAME).then((cache) => cache.add(CACHE_NAME))
+    // );
 
     evt.waitUntil(
       caches.open(DATA_CACHE_NAME).then((cache) => {return cache.addAll(FILES_TO_CACHE)})

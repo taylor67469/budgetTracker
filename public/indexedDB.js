@@ -8,7 +8,7 @@ let db;
 // let store = tx.objectStore("budgetSomething");
 request.onupgradeneeded = function (e) {
   db = e.target.result;
-  db.createObjectStore("Budget");
+  db.createObjectStore("budgetTable");
 };
 
 request.onerror = function () {
@@ -24,15 +24,15 @@ request.onsuccess = function (e) {
 };
 
 function saveRecord(data) {
-  const tx = db.transaction(["budgetT"], "readwrite");
-  const store = tx.objectStore("budgetT");
+  const tx = db.transaction(["budgetTable"], "readwrite");
+  const store = tx.objectStore("budgetTable");
   store.add(data);
 }
 
 function checkData(e) {
   db = e.target.result
-  const tx = db.transaction(["budgetT"], "readwrite");
-  const store = tx.objectStore("budgetT");
+  const tx = db.transaction(["budgetTable"], "readwrite");
+  const store = tx.objectStore("budgetTable");
   const getAll = store.getAll(); 
   getAll.onsuccess=function() {
     if(getAll){
