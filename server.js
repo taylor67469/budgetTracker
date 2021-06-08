@@ -2,7 +2,7 @@ const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const compression = require("compression");
-
+const uri= "mongodb+srv://admin:password1234@cluster0.fckkj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 const PORT = 3000||process.env.PORT;
 
 const app = express();
@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/budget", {
+mongoose.connect(uri,"mongodb://localhost/budget",{
   useNewUrlParser: true,
   useFindAndModify: false
 });
