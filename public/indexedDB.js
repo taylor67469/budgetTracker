@@ -1,11 +1,13 @@
 
-const request = window.indexedDB.open("budgetSomething", 1);
+const request = window.indexedDB.open("data-cache-v1", 1);
 let db;
+// const tx = db.transaction("static-cache-v2", "readwrite");
+// const store = tx.objectStore("static-cache-v2");
 // let tx = db.transaction("budgetSomething", "readwrite");
 // let store = tx.objectStore("budgetSomething");
 request.onupgradeneeded = function (e) {
   const db = e.target.result;
-  db.createObjectStore("budgetSomething", { autoIncrement: true});
+  db.createObjectStore("data-cache-v1", { autoIncrement: true});
 };
 
 request.onerror = function (e) {
@@ -21,14 +23,14 @@ request.onsuccess = function (e) {
 };
 
 function saveRecord(data) {
-  const tx = db.transaction("budgetSomething", "readwrite");
-  const store = tx.objectStore("budgetSomething");
+  const tx = db.transaction("data-cache-v1", "readwrite");
+  const store = tx.objectStore("data-cache-v1");
   store.add(data);
 }
 
 function checkData() {
-  const tx = db.transaction("budgetSomething", "readwrite");
-  const store = tx.objectStore("budgetSomething");
+  const tx = db.transaction("data-cache-v1", "readwrite");
+  const store = tx.objectStore("data-cache-v1");
   const getAll = store.getAll(); 
   getAll.onsuccess=function() {
     if(getAll){
