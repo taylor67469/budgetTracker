@@ -14,14 +14,31 @@ self.addEventListener("install", function (evt) {
     // pre cache image data
     // pre cache all static assets
     evt.waitUntil(
-      caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
+      caches.open(DATA_CACHE_NAME).then((cache) => cache.add('/api/transaction'))
+    );
+
+    evt.waitUntil(
+      caches.open(CACHE_NAME).then((cache) => {return cache.addAll(FILES_TO_CACHE)})
     );
   
     // tell the browser to activate this service worker immediately once it
     // has finished installing
     self.skipWaiting();
   });
+// activate
+self.addEventListener("activate", function(evt) {
+  evt.waitUntil(
+    caches.keys().then(keyList => {
+      return Promise.all(keyList.map(function (key) {
+          if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
+            return caches.delete(key);
+          }
+        }));
+    })
+  );
 
+  self.clients.claim();
+});
   
   // fetch
   self.addEventListener("fetch", function(evt) {
@@ -56,20 +73,7 @@ self.addEventListener("install", function (evt) {
     );
   });
   
-  // activate
-  self.addEventListener("activate", function(evt) {
-    evt.waitUntil(
-      caches.keys().then(keyList => {
-        return Promise.all(keyList.map(function (key, i) {
-            if (cacheKeeplist.indexOf(key) === -1) {
-              return caches.delete(keyList[i]);
-            }
-          }));
-      })
-    );
   
-    self.clients.claim();
-  });
 
   
 // // install event handler

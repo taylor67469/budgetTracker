@@ -1,11 +1,11 @@
 
-const request = window.indexedDB.open(databaseName, 1);
-let db
-let tx = db.transaction("budgetSomething", "readwrite");
-let store = tx.objectStore("budgetSomething");
+const request = window.indexedDB.open("budgetSomething", 1);
+let db;
+// let tx = db.transaction("budgetSomething", "readwrite");
+// let store = tx.objectStore("budgetSomething");
 request.onupgradeneeded = function (e) {
-  const db = request.result;
-  db.createObjectStore(storeName, { keyPath: "_id" });
+  const db = e.target.result;
+  db.createObjectStore("budgetSomething", { autoIncrement: true});
 };
 
 request.onerror = function (e) {
@@ -21,12 +21,16 @@ request.onsuccess = function (e) {
 };
 
 function saveRecord(data) {
+  const tx = db.transaction("budgetSomething", "readwrite");
+  const store = tx.objectStore("budgetSomething");
   store.add(data);
 }
 
 function checkData() {
+  const tx = db.transaction("budgetSomething", "readwrite");
+  const store = tx.objectStore("budgetSomething");
   const getAll = store.getAll(); 
-  getAll.onsuccess=function(params) {
+  getAll.onsuccess=function() {
     if(getAll){
       fetch("/api/transaction/bulk", {
         method: "POST",
@@ -36,6 +40,13 @@ function checkData() {
           "Content-Type": "application/json"
         }
       })
+      .then((response)=>{
+          return response.json();
+      })
+      .then(() => {
+        store.clear();
+        // clear the object store
+      });
     }
   }
 }
