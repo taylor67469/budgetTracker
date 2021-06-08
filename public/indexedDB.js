@@ -1,17 +1,17 @@
 
-const request = indexedDB.open("data-cache-v1", 1);
-const db;
+const request = indexedDB.open("budget", 1);
+let db;
 
 // const tx = db.transaction("static-cache-v2", "readwrite");
 // const store = tx.objectStore("static-cache-v2");
 // let tx = db.transaction("budgetSomething", "readwrite");
 // let store = tx.objectStore("budgetSomething");
 request.onupgradeneeded = function (e) {
-  let db = e.target.result;
+  db = e.target.result;
   db.createObjectStore("Budget");
 };
 
-request.onerror = function (e) {
+request.onerror = function () {
   console.log("There was an error");
 };
 
@@ -24,16 +24,15 @@ request.onsuccess = function (e) {
 };
 
 function saveRecord(data) {
-  const db = e.target.result
-  const tx = db.transaction(["Budget"], "readwrite");
-  const store = tx.objectStore("Budget");
+  const tx = db.transaction(["budgetT"], "readwrite");
+  const store = tx.objectStore("budgetT");
   store.add(data);
 }
 
 function checkData(e) {
-  const db = e.target.result
-  const tx = db.transaction(["Budget"], "readwrite");
-  const store = tx.objectStore("Budget");
+  db = e.target.result
+  const tx = db.transaction(["budgetT"], "readwrite");
+  const store = tx.objectStore("budgetT");
   const getAll = store.getAll(); 
   getAll.onsuccess=function() {
     if(getAll){
