@@ -1,3 +1,9 @@
+const indexedDB =
+  window.indexedDB ||
+  window.mozIndexedDB ||
+  window.webkitIndexedDB ||
+  window.msIndexedDB ||
+  window.shimIndexedDB;
 
 const request = indexedDB.open("budget", 1);
 let db;
@@ -8,7 +14,9 @@ let db;
 // let store = tx.objectStore("budgetSomething");
 request.onupgradeneeded = function (e) {
   db = e.target.result;
-  db.createObjectStore("budgetTable");
+  db.createObjectStore("budgetTable",{
+    autoIncrement: true
+  });
 };
 
 request.onerror = function () {
@@ -26,11 +34,12 @@ request.onsuccess = function (e) {
 function saveRecord(data) {
   const tx = db.transaction(["budgetTable"], "readwrite");
   const store = tx.objectStore("budgetTable");
+  console.log(data)
   store.add(data);
 }
 
-function checkData(e) {
-  db = e.target.result
+function checkData() {
+  // console.log(e);
   const tx = db.transaction(["budgetTable"], "readwrite");
   const store = tx.objectStore("budgetTable");
   const getAll = store.getAll(); 
@@ -48,6 +57,8 @@ function checkData(e) {
           return response.json();
       })
       .then(() => {
+        const tx = db.transaction(["budgetTable"], "readwrite");
+        const store = tx.objectStore("budgetTable");
         store.clear();
         // clear the object store
       });
